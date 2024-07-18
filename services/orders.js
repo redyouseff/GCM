@@ -12,8 +12,10 @@ const createOrder=asyncHandler(async(req,res,next)=>{
         const product = await productModel.findOne({id:item.id});
        
             quantity=product.quantity-item.quantity;
+            sold=product.sold+item.quantity
             const updatedProduct=await productModel.findByIdAndUpdate(product._id,{
-                quantity:quantity
+                quantity:quantity,
+                sold:sold
             },{new:true})
            
         sum += product.price*item.quantity; 
