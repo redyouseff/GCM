@@ -12,6 +12,9 @@ const createPrduct=asyncHandler(async(req,res,next)=>{
 
 const getAllProduct=asyncHandler(async(req,res)=>{
     const product =await productModel.find({});
+   
+    
+   
     res.status(200).json({status:200,data:product})
 })
 
@@ -30,10 +33,13 @@ const getSpecificProduct=asyncHandler(async(req,res,next)=>{
 
 const deleteProduct=asyncHandler(async(req,res,next)=>{
     const product=await productModel.findByIdAndDelete(req.params.id)
+  
 
         if(!product){
             return next (new appError(`there is no product for this id ${req.params.id}`,400))
         }else{
+           
+          
             res.status(200).json({status:"success",data:product})
         }
        
@@ -50,6 +56,7 @@ const updateQuantity=asyncHandler(async(req,res,next)=>{
     if(!product){
         return next (new appError(`there is no product for this id ${req.params.id}`,400))
     }else{
+       
         res.status(200).json({status:"success",data:product})
     }
 })

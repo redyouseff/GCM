@@ -10,9 +10,17 @@ const createOrder=asyncHandler(async(req,res,next)=>{
     await Promise.all(req.body.order.map(async (item) => {
         
         const product = await productModel.findOne({id:item.id});
+             
+       console.log(product.quantity)
+       console.log(item.quantity)
+       console.log(product.quantity>=item.quantity)
+      
+       if (item.quantity > product.quantity) {
+        return Promise.reject(new appError(`Insufficient quantity for product ID ${item.id}`, 400));
+    }
        
             quantity=product.quantity-item.quantity;
-            sold=product.sold+item.quantity
+            sold=parseInt(product.sold) + parseInt(item.quantity)
             const updatedProduct=await productModel.findByIdAndUpdate(product._id,{
                 quantity:quantity,
                 sold:sold
@@ -51,6 +59,8 @@ const getAllOrder=asyncHandler(async(req,res,next)=>{
 
 const deleteAllOrder=asyncHandler(async(req,res,next)=>{
     const order= await orderModel.deleteMany();
+    const updateProduct = await productModel.updateMany({}, { sold: 0 },{new:true});
+  
     res.status(200).json({status:"success",data:order})
 
 })
