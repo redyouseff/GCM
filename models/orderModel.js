@@ -2,6 +2,9 @@ const mongoose=require("mongoose");
 const { type } = require("os");
 
 const orderSchema=mongoose.Schema({
+    name:{
+        type:String
+    },
     order:[{
         id:{
          

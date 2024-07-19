@@ -11,9 +11,7 @@ const createOrder=asyncHandler(async(req,res,next)=>{
         
         const product = await productModel.findOne({id:item.id});
              
-       console.log(product.quantity)
-       console.log(item.quantity)
-       console.log(product.quantity>=item.quantity)
+      
       
        if (item.quantity > product.quantity) {
         return Promise.reject(new appError(`Insufficient quantity for product ID ${item.id}`, 400));
@@ -31,6 +29,7 @@ const createOrder=asyncHandler(async(req,res,next)=>{
     
     
     const order=await orderModel.create({
+        name:req.body.name,
         order:req.body.order,
         price:sum
     })
