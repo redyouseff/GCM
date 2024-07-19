@@ -63,10 +63,21 @@ const deleteAllOrder=asyncHandler(async(req,res,next)=>{
     res.status(200).json({status:"success",data:order})
 
 })
+const getSpecificOrder=asyncHandler(async(req,res,next)=>{
+    const order= await orderModel.findById(req.params.id)
+  
+   
+    if(!order){
+        return next (new appError(`there is no product for this id ${req.params.id}`,400))
+    }else{
+        res.status(200).json({status:"success",data:order})
+    }
+
+})
 
 
 
 
 
 
-module.exports={createOrder,getAllOrder,deleteAllOrder}
+module.exports={createOrder,getAllOrder,deleteAllOrder,getSpecificOrder}
